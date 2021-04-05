@@ -9,7 +9,7 @@ exports.createRecipe = (req, res, next) => {
 
   recipe.name = req.body.name;
   recipe.instruction = req.body.instruction;
-  recipe.userId = req.userId;
+  recipe.userId = req.body.userId;
 
   recipe.save().then(
     () => {
@@ -27,7 +27,9 @@ exports.createRecipe = (req, res, next) => {
 };
 
 exports.getAllRecipe = (req, res, next) => {
-  Recipe.find().then(
+  Recipe.find(
+    {userId: req.body.userId}
+  ).then(
     (recipe) => {
       res.status(200).json({
         recipe: recipe
@@ -42,13 +44,56 @@ exports.getAllRecipe = (req, res, next) => {
   );
 };
 
-exports.getMyRecipe = (req, res, next) => {
-  Recipe.find(
-    {_id: req.params.id}
+exports.getOneRecipe = (req, res, next) => {
+  Recipe.findOne(
+    {
+      _id: req.params.id,
+      userId: req.body.userId
+    }
   ).then(
     (recipe) => {
       res.status(200).json({
         recipe: recipe
+      });
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+};
+
+exports.modifyRecipe = (req, res, next) => {
+  let recipe = new Recipe({ _id: req.params.id });
+
+  recipe.name = req.body.name;
+  recipe.instruction = req.body.instruction;
+
+
+  Recipe.updateOne({_id: req.params.id}, recipe).then(
+    () => {
+      res.status(201).json({
+        message: 'Recipe updated successfully!'
+      });
+    }
+  ).catch(
+    (error) => {
+      res.status(400).json({
+        error: error
+      });
+    }
+  );
+};
+
+exports.deleteRecipe = (req, res, next) => {
+  Recipe.deleteOne({
+    _id: req.params.id
+  }).then(
+    () => {
+      res.status(200).json({
+        message: 'Deleted!'
       });
     }
   ).catch(

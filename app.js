@@ -7,7 +7,6 @@ const path = require('path');
 const config = require('./config.json');
 
 const userRoutes = require('./routes/user');
-const fileRoutes = require('./routes/file');
 const recipeRoutes = require('./routes/recipe');
 
 const app = express();
@@ -32,7 +31,6 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.use('/api/auth', userRoutes);
-app.use('/api/file', fileRoutes);
 app.use('/api/recipes', recipeRoutes);
 
 module.exports = app;

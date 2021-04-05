@@ -2,9 +2,9 @@ const mongoose = require("mongoose");
 
 const recipeSchema = mongoose.Schema(
   {
-    name: String,
+    name: { type: String, required: true },
     instruction: String,
-    userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User'}
+    userId : {type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true}
   },
   { timestamps: true }
 );
