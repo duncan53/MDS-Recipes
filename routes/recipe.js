@@ -7,7 +7,7 @@ const auth = require('../middleware/auth');
 const checkRecipe = require('../middleware/myRecipe');
 
 // /recipes
-router.get('/', auth, checkRecipe, recipeCtrl.getAllRecipe);
+router.get('/', auth, recipeCtrl.getAllRecipe);
 router.post('/', auth, recipeCtrl.createRecipe);
 
 // /recipes/{id}
